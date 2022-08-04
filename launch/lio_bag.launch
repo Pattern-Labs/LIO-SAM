@@ -1,0 +1,10 @@
+<launch>
+	<arg name="launch_bag" default="true"/>
+	<arg name="launch_liosam" default="true"/>
+	<include file="$(find pattern)/launch/lio.launch" if="$(arg launch_liosam)">
+		<arg name="launch_ouster" 	value="false"/>
+		<arg name="launch_liosam" 	value="true"/>
+	</include>
+	<node pkg="rosbag" type="play" name="rosbag_play" output="screen" if="$(arg launch_bag)"
+		args="--clock --loop $(find pattern)/data/ouster3.bag"/>
+</launch>
