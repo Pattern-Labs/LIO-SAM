@@ -4,8 +4,8 @@
 	<!-- OUSTER -->
 	<group if="$(arg launch_ouster)">
 		<include file="$(find ouster_ros)/ouster.launch">
-			<arg name="sensor_hostname" 	value="192.168.100.50"/>
-			<arg name="udp_dest"        	value="192.168.100.1"/>
+			<arg name="sensor_hostname" 	value="192.168.200.2"/>
+			<arg name="udp_dest"        	value="192.168.200.1"/>
 			<arg name="lidar_mode"	    	value="1024x20"/>
 			<arg name="timestamp_mode"  	value="TIME_FROM_PTP_1588"/>
 			<arg name="metadata"	    	value="metadata"/>
@@ -13,7 +13,7 @@
 	</group>
 	<!-- LIOSAM -->
 	<group if="$(arg launch_liosam)">
-    	<rosparam file="$(find pattern)/config/params.yaml" command="load"/>
+    	<rosparam file="$(find lio_sam)/config/params.yaml" command="load"/>
 		<include file="$(find lio_sam)/launch/include/module_loam.launch"/>
 	</group>
 </launch>

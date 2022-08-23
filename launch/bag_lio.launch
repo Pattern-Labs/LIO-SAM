@@ -1,10 +1,13 @@
 <launch>
 	<arg name="launch_bag" default="true"/>
 	<arg name="launch_liosam" default="true"/>
-	<include file="$(find pattern)/launch/lio.launch" if="$(arg launch_liosam)">
+	<arg name="bagfile" default="/catkin_ws/src/pattern/data/2022-08-05-21-11-18.bag"/>
+	<!-- LIOSAM AND SENSORS -->
+	<include file="$(find lio_sam)/launch/lio.launch" if="$(arg launch_liosam)">
 		<arg name="launch_ouster" 	value="false"/>
 		<arg name="launch_liosam" 	value="true"/>
 	</include>
+	<!-- ROSBAG PLAY -->
 	<node pkg="rosbag" type="play" name="rosbag_play" output="screen" if="$(arg launch_bag)"
-		args="--clock --loop $(find pattern)/data/ouster3.bag"/>
+		args="--clock --loop $(arg bagfile)"/>
 </launch>
