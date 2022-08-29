@@ -1,13 +1,19 @@
 <launch>
-	<arg name="launch_bag" default="true"/>
+	<arg name="launch_ouster_bag" default="true"/>
+	<arg name="launch_liosam_bag" default="true"/>
 	<arg name="launch_liosam" default="true"/>
-	<arg name="bagfile" default="/catkin_ws/src/pattern/data/2022-08-05-21-11-18.bag"/>
+	<arg name="bagdir" default="/catkin_ws/data/lio_tests/lio_test_20220823/"/>
+	<arg name="ouster_bagfile" default="ouster_2022-08-24-00-13-53.bag"/>
+	<arg name="liosam_bagfile" default="lio"/>
 	<!-- LIOSAM AND SENSORS -->
 	<include file="$(find lio_sam)/launch/lio.launch" if="$(arg launch_liosam)">
-		<arg name="launch_ouster" 	value="false"/>
+		<arg name="launch_ouster" 	value="$(eval not launch_ouster_bag)"/>
 		<arg name="launch_liosam" 	value="true"/>
 	</include>
 	<!-- ROSBAG PLAY -->
-	<node pkg="rosbag" type="play" name="rosbag_play" output="screen" if="$(arg launch_bag)"
-		args="--clock --loop $(arg bagfile)"/>
+	<node pkg="rosbag" type="play" name="rosbag_play" output="screen" if="$(arg launch_ouster_bag)"
+		args="--clock $(arg bagdir)$(arg ouster_bagfile)"/>
+	<!-- ROSBAG RECORD -->
+	<node pkg="rosbag" type="record" name="rosbag_record" output="screen" if="$(arg launch_liosam_bag)"
+		args="/lio_sam/mapping/odometry -o $(arg bagdir)$(arg liosam_bagfile)"/>
 </launch>
